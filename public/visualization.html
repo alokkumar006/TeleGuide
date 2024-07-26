@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Distribution</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    canvas {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    async function fetchData() {
+      const response = await fetch('/api/network-distribution');
+      const data = await response.json();
+      return data;
+    }
+
+    async function createChart() {
+      const data = await fetchData();
+
+      const totalUsers = data.network_1G + data.network_2G + data.network_3G + data.network_4G + data.network_5G;
+      const ctx = document.getElementById('networkChart').getContext('2d');
+      const networkChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['1G', '2G', '3G', '4G', '5G'],
+          datasets: [{
+            label: 'Network Distribution',
+            data: [
+              data.network_1G,
+              data.network_2G,
+              data.network_3G,
+              data.network_4G,
+              data.network_5G
+            ],
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                label: function(tooltipItem) {
+                  const label = tooltipItem.label || '';
+                  const value = tooltipItem.raw;
+                  const percentage = ((value / totalUsers) * 100).toFixed(2);
+                  return `${label}: ${value} (${percentage}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    window.onload = createChart;
+  </script>
+</head>
+<body>
+  <h1>Network Distribution</h1>
+  <div class="container">
+    <canvas id="networkChart"></canvas>
+  </div>
+</body>
+</html>

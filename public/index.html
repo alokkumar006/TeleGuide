@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .result {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      width: 100%;
+    }
+    .result .block {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      width: 90%;
+      text-align: center;
+    }
+    .result .label {
+      font-weight: bold;
+      color: #333;
+    }
+    .message {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+  <script>
+    async function searchUser() {
+      const userId = document.getElementById('userid').value;
+      const response = await fetch(`/api/search?userid=${userId}`);
+      const data = await response.json();
+      const resultDiv = document.querySelector('.result');
+      const messageDiv = document.getElementById('message');
+
+      if (response.ok) {
+        const networkType = getNetworkType(data);
+        document.getElementById('lastRecharge').innerText = `${data.LASTRECHRGDATE_days} days ago`;
+        document.getElementById('dataUsed').innerText = `${data.SUMDATAUSG4G} bytes`;
+        document.getElementById('isSmartphone').innerText = data.DEVICETYPE_Smartphone === 1 ? 'True' : 'False';
+        document.getElementById('networkType').innerText = networkType;
+        resultDiv.style.display = 'flex';
+        messageDiv.innerText = '';
+      } else {
+        resultDiv.style.display = 'none';
+        messageDiv.innerText = data.message;
+      }
+    }
+
+    function getNetworkType(data) {
+      if (data.network_5G === 1) return '5G';
+      if (data.network_4G === 1) return '4G';
+      if (data.network_3G === 1) return '3G';
+      if (data.network_2G === 1) return '2G';
+      if (data.network_1G === 1) return '1G';
+      return 'Unknown';
+    }
+  </script>
+</head>
+<body>
+  <h1>Search User</h1>
+  <div class="container">
+    <input type="text" id="userid" placeholder="Enter UserID">
+    <button onclick="searchUser()">Search</button>
+    <div id="message" class="message"></div>
+    <div class="result" style="display: none;">
+      <div class="block">
+        <span class="label">Last Day Recharge:</span> <span id="lastRecharge"></span>
+      </div>
+      <div class="block">
+        <span class="label">4G Data Used:</span> <span id="dataUsed"></span>
+      </div>
+      <div class="block">
+        <span class="label">Device is Smartphone:</span> <span id="isSmartphone"></span>
+      </div>
+      <div class="block">
+        <span class="label">Device Network:</span> <span id="networkType"></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
