@@ -11,9 +11,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//Server home page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Serve search page
 app.get('/search', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'search.html'));
 });
 
 // Serve network distribution page
@@ -47,7 +52,12 @@ app.get('/api/network-distribution', async (req, res) => {
           network_2G: { $sum: '$network_2G' },
           network_3G: { $sum: '$network_3G' },
           network_4G: { $sum: '$network_4G' },
-          network_5G: { $sum: '$network_5G' }
+          network_5G: { $sum: '$network_5G' },
+          basic: { $sum: '$CUSTSEGMENT_Basic' },
+          silver: { $sum: '$CUSTSEGMENT_Silver' },
+          gold: { $sum: '$CUSTSEGMENT_Gold' },
+          platinum: { $sum: '$CUSTSEGMENT_Platinum' },
+          signature: { $sum: '$CUSTSEGMENT_Signature' }
         }
       }
     ]);
