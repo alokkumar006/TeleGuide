@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TeleGuide</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style2.css">
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -25,38 +25,51 @@
                 <li class="nav-item">
                     <a class="nav-link" href="visualization.html">Data Visualization</a>
                 </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link">Login/Signup</a>
+                </li>
             </ul>
         </div>
     </nav>
 
     <!-- Header Section -->
-    <header class="header-section">
-        <div class="container text-center">
-            <h1 class="display-4">Welcome to TeleGuide</h1>
-            <p class="lead">Your one-stop solution for telecom data insights and user management</p>
+    <header>
+        <div class="header-section">
+            <h1>Welcome to TeleGuide</h1>
+            <p>Your guide to telecommunication data.</p>
         </div>
     </header>
 
     <!-- Main Content -->
-    <div class="container mt-5 pt-5">
+    <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
-                    <img src="img/search.jpg" class="card-img-top" alt="Search User">
+                    <img src="img/search.jpg" class="card-img-top" alt="Search">
                     <div class="card-body">
                         <h5 class="card-title">Search User</h5>
-                        <p class="card-text">Search for a user by their ID and get detailed information.</p>
-                        <a href="search.html" class="btn btn-primary">Go to Search</a>
+                        <p class="card-text">Find user details by UserID.</p>
+                        <a href="search.html" class="btn btn-primary">Search</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
-                    <img src="img/visualize.jpg" class="card-img-top" alt="Data Visualization">
+                    <img src="img/graph.png" class="card-img-top" alt="Visualization">
                     <div class="card-body">
                         <h5 class="card-title">Data Visualization</h5>
-                        <p class="card-text">View telecom data in various visual formats.</p>
-                        <a href="visualization.html" class="btn btn-primary">Go to Visualization</a>
+                        <p class="card-text">Visualize telecom data.</p>
+                        <a href="visualization.html" class="btn btn-primary">Visualize</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="img/recomender.png" class="card-img-top" alt="Guide">
+                    <div class="card-body">
+                        <h5 class="card-title">Telecom Guide</h5>
+                        <p class="card-text">Learn about telecom networks.</p>
+                        <a href="#" class="btn btn-primary">Click Here</a>
                     </div>
                 </div>
             </div>
@@ -73,6 +86,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
 </body>
 </html>

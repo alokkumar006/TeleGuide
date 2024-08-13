@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/TelecomData')   
-.then(()=>{
-    console.log("Database connection done");
-}).catch(()=>{
-    console.log("Something went wrong!");
-})
+mongoose.connect('mongodb+srv://TeleGuide:TeleGuide%40123@cluster0.hlh9dih.mongodb.net/TelecomData?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log("Database connection to TelecomData done");
+}).catch((error) => {
+    console.error("Database connection error:", error);
+});

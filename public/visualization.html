@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telecom Data Visualization</title>
+  <title>Network Distribution</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,25 +16,22 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      height: 100vh;
     }
     h1 {
       color: #333;
-      text-align: center;
     }
     .container {
       background: #fff;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 800px;
+      max-width: 600px;
       width: 100%;
-      margin-bottom: 20px;
     }
     canvas {
       width: 100%;
       height: auto;
-      margin-top: 20px;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -43,19 +42,24 @@
       return data;
     }
 
-    async function createCharts() {
+    async function createChart() {
       const data = await fetchData();
-      const totalUsers = data.network_1G + data.network_2G + data.network_3G + data.network_4G + data.network_5G;
 
-      // Network Distribution Pie Chart
-      const ctxNetwork = document.getElementById('networkChart').getContext('2d');
-      new Chart(ctxNetwork, {
+      const totalUsers = data.network_1G + data.network_2G + data.network_3G + data.network_4G + data.network_5G;
+      const ctx = document.getElementById('networkChart').getContext('2d');
+      const networkChart = new Chart(ctx, {
         type: 'pie',
         data: {
           labels: ['1G', '2G', '3G', '4G', '5G'],
           datasets: [{
             label: 'Network Distribution',
-            data: [data.network_1G, data.network_2G, data.network_3G, data.network_4G, data.network_5G],
+            data: [
+              data.network_1G,
+              data.network_2G,
+              data.network_3G,
+              data.network_4G,
+              data.network_5G
+            ],
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -92,66 +96,35 @@
           }
         }
       });
-
-      // Customer Segment Distribution Pie Chart
-      const ctxCustomerSegment = document.getElementById('customerSegmentChart').getContext('2d');
-      new Chart(ctxCustomerSegment, {
-        type: 'pie',
-        data: {
-          labels: ['Basic', 'Silver', 'Gold', 'Platinum', 'Signature'],
-          datasets: [{
-            label: 'Customer Segment Distribution',
-            data: [data.basic, data.silver, data.gold, data.platinum, data.signature],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            tooltip: {
-              callbacks: {
-                label: function(tooltipItem) {
-                  const label = tooltipItem.label || '';
-                  const value = tooltipItem.raw;
-                  const percentage = ((value / (data.basic + data.silver + data.gold + data.platinum + data.signature)) * 100).toFixed(2);
-                  return `${label}: ${value} (${percentage}%)`;
-                }
-              }
-            }
-          }
-        }
-      });
     }
 
-    window.onload = createCharts;
+    window.onload = createChart;
   </script>
 </head>
 <body>
-  <h1>Telecom Data Visualization</h1>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">TeleGuide</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="search.html">Search User</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="visualization.html">Data Visualization</a>
+            </li>
+        </ul>
+    </div>
+  </nav>
   <div class="container">
-    <h2>Network Distribution</h2>
     <canvas id="networkChart"></canvas>
   </div>
-  <div class="container">
-    <h2>Customer Segment Distribution</h2>
-    <canvas id="customerSegmentChart"></canvas>
-  </div>
+  
 </body>
 </html>
