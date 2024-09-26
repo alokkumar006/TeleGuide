@@ -38,7 +38,7 @@ app.get('/network-distribution', (req, res) => {
 });
 
 // API endpoint to search for user by UserID
-app.get('/api/search', async (req, res) => {
+app.get('/api/search',on async (req, res) => {
   try {
     const user = await product.findOne({ UserID: req.query.userid });
     console.log(user);
